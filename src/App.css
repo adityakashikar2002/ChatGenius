@@ -51,6 +51,42 @@ body.dark-mode .chat-message.bot{
   align-self: flex-start;
 }
 
+/* .chat-input {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+} */
+
+/* .chat-input input {
+  flex-grow: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 8px;
+}
+
+.chat-input button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+} */
+
+.dark-mode-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 10;
+}
+
 .chat-input {
   display: flex;
   padding: 10px;
@@ -74,15 +110,119 @@ body.dark-mode .chat-message.bot{
   cursor: pointer;
 }
 
-.dark-mode-toggle {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: white;
+/* .voice-input-button{
+  background-color: transparent;
   border: none;
-  border-radius: 4px;
+  font-size: 20px;
+  margin-right: 5px;
   cursor: pointer;
-  z-index: 10;
+} */
+
+/* .voice-input-button {
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  margin-right: 5px;
+  cursor: pointer;
+  transition: transform 0.5s ease;
+}
+
+.voice-input-button.listening {
+  animation: breathing 2s ease-in-out infinite alternate;
+}
+
+@keyframes breathing {
+  0% {
+      transform: scale(1);
+  }
+  100% {
+      transform: scale(1.2);
+  }
+} */
+
+.voice-input-container {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ff6b6b;
+  transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+}
+
+.voice-input-container.listening {
+  background-color: #ff8787;
+  transform: scale(1.1);
+}
+
+.voice-input-button {
+  background-color: transparent !important;
+  border: none;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.voice-input-container.listening .voice-input-button {
+  animation: breathing 1s ease-in-out infinite alternate;
+}
+
+@keyframes breathing {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.2); }
+}
+
+
+pre code.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 1em;
+  background: #282c34;
+  color: #abb2bf;
+}
+
+.edit-button,
+.resend-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #007bff;
+    padding: 0;
+    margin-left: 5px;
+}
+
+.edit-textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    resize: vertical; /* Allow vertical resizing */
+    font-size: 16px; /* Match font size with chat text */
+    min-height: 80px; /* Set a minimum height */
+}
+
+.resend-button {
+    color: #28a745; /* Green color for resend */
+}
+
+.copy-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #007bff;
+  padding: 4px;
+  z-index: 1;
+  transition: color 0.3s ease; /* Add transition for smooth hover effect */
+}
+
+.copy-button:hover {
+  color: #0056b3; /* Change color on hover */
 }
