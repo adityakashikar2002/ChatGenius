@@ -1,4 +1,4 @@
-// chat-app/src/components/DarkModeToggle.js
+
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleDarkMode } from '../redux/actions';

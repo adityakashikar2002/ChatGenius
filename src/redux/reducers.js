@@ -1,5 +1,4 @@
-// // WORKS 100
-// import { ADD_MESSAGE, TOGGLE_DARK_MODE } from './actions';
+// import { ADD_MESSAGE, TOGGLE_DARK_MODE, UPDATE_MESSAGES } from './actions';
 
 // const initialState = {
 //     messages: [],
@@ -18,18 +17,23 @@
 //                 ...state,
 //                 isDarkMode: !state.isDarkMode,
 //             };
+//         case UPDATE_MESSAGES:
+//             return {
+//                 ...state,
+//                 messages: action.payload,
+//             };
 //         default:
 //             return state;
 //     }
 // }
 
 // export default rootReducer;
-
-import { ADD_MESSAGE, TOGGLE_DARK_MODE, UPDATE_MESSAGES } from './actions';
+import { ADD_MESSAGE, TOGGLE_DARK_MODE, UPDATE_MESSAGES, ADD_CHAT, UPDATE_CHAT, SET_CHATS } from './actions';
 
 const initialState = {
     messages: [],
     isDarkMode: false,
+    chats: [],
 };
 
 function rootReducer(state = initialState, action) {
@@ -48,6 +52,23 @@ function rootReducer(state = initialState, action) {
             return {
                 ...state,
                 messages: action.payload,
+            };
+        case ADD_CHAT:
+            return {
+                ...state,
+                chats: [...state.chats, action.payload],
+            };
+        case UPDATE_CHAT:
+            return {
+                ...state,
+                chats: state.chats.map((chat) =>
+                    chat.id === action.payload.id ? action.payload : chat
+                ),
+            };
+        case SET_CHATS:
+            return {
+                ...state,
+                chats: action.payload,
             };
         default:
             return state;
