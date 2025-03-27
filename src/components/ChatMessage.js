@@ -1,4 +1,4 @@
-// WORKS 100
+//components/ChatMessage.js
 import React, { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";

@@ -1,57 +1,11 @@
-// // WORKS 100
-// import React, { useState, useRef } from 'react';
-// import { useDispatch } from 'react-redux';
-// import { addMessage } from '../redux/actions';
-// import { sendMessageToGemini } from '../services/gemini';
-// import VoiceInput from './VoiceInput';
-
-// function ChatInput() {
-//     const [input, setInput] = useState('');
-//     const dispatch = useDispatch();
-//     const voiceInputRef = useRef(null);
-
-//     const handleInputChange = (e) => {
-//         setInput(e.target.value);
-//     };
-
-//     const handleSendMessage = async () => {
-//         if (input.trim()) {
-//             dispatch(addMessage({ id: Date.now(), text: input, sender: 'user' }));
-//             const response = await sendMessageToGemini(input);
-//             dispatch(addMessage({ id: Date.now(), text: response, sender: 'bot' }));
-//             setInput('');
-//         }
-//     };
-
-//     const handleKeyDown = (e) => {
-//         if (e.key === 'Enter') {
-//             handleSendMessage();
-//         }
-//     };
-
-//     return (
-//         <div className="chat-input">
-//             <VoiceInput editRef={voiceInputRef} editInput={setInput} />
-//             <input ref={voiceInputRef}
-//                 type="text"
-//                 value={input}
-//                 onChange={handleInputChange}
-//                 onKeyDown={handleKeyDown}
-//                 placeholder="Type your message..."
-//             />
-//             <button onClick={handleSendMessage}>Send</button>
-//         </div>
-//     );
-// }
-
-// export default ChatInput;
+// components/ChatInput.js
 import React, { useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { addMessage } from '../redux/actions';
+import { useDispatch} from 'react-redux';
+import { addMessage, addChat } from '../redux/actions';
 import { sendMessageToGemini } from '../services/gemini';
 import VoiceInput from './VoiceInput';
 
-function ChatInput() {
+function ChatInput({ activeChatId, setActiveChatId }) {
     const [input, setInput] = useState('');
     const dispatch = useDispatch();
     const voiceInputRef = useRef(null);
@@ -63,10 +17,24 @@ function ChatInput() {
     const handleSendMessage = async (message) => {
         const text = message || input.trim();
         if (text) {
-            dispatch(addMessage({ id: Date.now(), text, sender: 'user' }));
-            const response = await sendMessageToGemini(text);
-            dispatch(addMessage({ id: Date.now(), text: response, sender: 'bot' }));
-            setInput('');
+            let chatId = activeChatId;
+
+            // Check if it's the first prompt and no chats exist
+            if (!chatId) {
+                const newChatId = Date.now();
+                dispatch(addChat({ id: newChatId, title: text.substring(0, 20), history: [] }));
+                setActiveChatId(newChatId);
+                chatId = newChatId;
+            }
+
+            dispatch(addMessage({ id: Date.now(), text, sender: 'user', chatId: chatId }));
+
+            // Add a small delay to ensure chat title is updated
+            setTimeout(async () => {
+                const response = await sendMessageToGemini(text, chatId);
+                dispatch(addMessage({ id: Date.now(), text: response, sender: 'bot', chatId: chatId }));
+                setInput('');
+            }, 100);
         }
     };
 

@@ -1,4 +1,4 @@
-// WORKS 100
+// App.js 
 import React, { useState, useEffect } from 'react';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import store from './redux/store';
@@ -7,7 +7,7 @@ import ChatInput from './components/ChatInput';
 import DarkModeToggle from './components/DarkModeToggle';
 import { ToastContainer } from 'react-toastify';
 import './App.css';
-import { addChat, setChats } from './redux/actions';
+import { addChat, setChats, updateChat, removeChat, setMessages } from './redux/actions'; // Import setMessages
 
 function App() {
     const [showSidebar, setShowSidebar] = useState(true);
@@ -20,6 +20,9 @@ function App() {
         dispatch(setChats(storedChats));
         if (storedChats.length > 0) {
             setActiveChatId(storedChats[0].id);
+            // Load messages for the active chat
+            const activeChatMessages = storedChats.find(chat => chat.id === storedChats[0].id)?.history || [];
+            dispatch(setMessages(activeChatMessages));
         }
     }, [dispatch]);
 
@@ -27,19 +30,41 @@ function App() {
         localStorage.setItem('chats', JSON.stringify(chats));
     }, [chats]);
 
-    const handleNewChat = () => {
+    const handleNewChat = async () => {
         const newChatId = Date.now();
-        const newChat = { id: newChatId, title: `New Chat ${newChatId}` };
+        const newChat = { id: newChatId, title: `New Chat ${newChatId}`, history: [] };
         dispatch(addChat(newChat));
         setActiveChatId(newChatId);
     };
 
     const handleChatClick = (id) => {
         setActiveChatId(id);
+        const selectedChat = chats.find(chat => chat.id === id);
+        if (selectedChat) {
+            dispatch(setMessages(selectedChat.history || [])); // Dispatch messages for selected chat
+        }
     };
 
     const handleToggleSidebar = () => {
         setShowSidebar(!showSidebar);
+    };
+
+    const updateChatTitle = (chatId, title) => {
+        const chatToUpdate = chats.find(chat => chat.id === chatId);
+        if (chatToUpdate && chatToUpdate.title !== title) {
+            dispatch(updateChat({ ...chatToUpdate, title: title }));
+        }
+    };
+
+    const handleDeleteChat = (chatId) => {
+        dispatch(removeChat(chatId));
+        if (activeChatId === chatId) {
+            if (chats.length > 1) {
+                setActiveChatId(chats.filter(chat => chat.id !== chatId)[0].id);
+            } else {
+                setActiveChatId(null);
+            }
+        }
     };
 
     return (
@@ -50,14 +75,10 @@ function App() {
                         <button className="sidebar-toggle" onClick={handleToggleSidebar}>
                             ☰
                         </button>
-                        {/* <button className="new-chat-button" onClick={handleNewChat}>
-                            {showSidebar ? `{<img src="/plus.png" alt="+" width={'25px'}/>}New Chat`: <img src="/plus.png" alt="+" width={'25px'}/>}
-                        </button> */}
                         <button className="new-chat-button" onClick={handleNewChat}>
                             <img src="/plus.png" alt="+" width="25px" style={{ marginRight: '8px'}} />
                             {showSidebar ? "New Chat" : null}
                         </button>
-
                     </div>
                     {showSidebar && (
                         <div className="sidebar-content">
@@ -68,6 +89,9 @@ function App() {
                                         className={activeChatId === chat.id ? 'active' : ''}
                                         onClick={() => handleChatClick(chat.id)}>
                                         {chat.title}
+                                        <button className="delete-chat-button" onClick={(e) => { e.stopPropagation(); handleDeleteChat(chat.id); }}>
+                                            X
+                                        </button>
                                     </li>
                                 ))}
                             </ul>
@@ -76,8 +100,8 @@ function App() {
                 </div>
                 <div className="chat-container">
                     <DarkModeToggle />
-                    <ChatWindow activeChatId={activeChatId} />
-                    <ChatInput activeChatId={activeChatId} />
+                    <ChatWindow activeChatId={activeChatId} updateChatTitle={updateChatTitle} />
+                    <ChatInput activeChatId={activeChatId} setActiveChatId={setActiveChatId} />
                     <ToastContainer />
                 </div>
             </div>

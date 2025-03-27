@@ -1,11 +1,11 @@
-// chat-app/src/services/gemini.js
+// services/gemini.js
 const {
   GoogleGenerativeAI,
   HarmCategory,
   HarmBlockThreshold,
 } = require("@google/generative-ai");
 
-const apiKey = process.env.REACT_APP_GEMINI_API_KEYS;
+const apiKey = process.env.REACT_APP_GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(apiKey);
 
 const model = genAI.getGenerativeModel({
@@ -39,20 +39,23 @@ const safetySettings = [
   },
 ];
 
-let chatSession;
+let chatSessions = {};
 
-export async function sendMessageToGemini(input) {
-  if (!chatSession)
-  {
-      chatSession = model.startChat({
-          generationConfig,
-          safetySettings,
-          history: [],
-      });
+export async function startNewChatSession(chatId) {
+  chatSessions[chatId] = model.startChat({
+      generationConfig,
+      safetySettings,
+      history: [],
+  });
+}
+
+export async function sendMessageToGemini(input, chatId) {
+  if (!chatSessions[chatId]) {
+      await startNewChatSession(chatId);
   }
-  console.log("API Key:", process.env.REACT_APP_GEMINI_API_KEY);
+
   try {
-      const result = await chatSession.sendMessage(input);
+      const result = await chatSessions[chatId].sendMessage(input);
       return result.response.text();
   } catch (error) {
       console.error("Gemini API Error:", error);
