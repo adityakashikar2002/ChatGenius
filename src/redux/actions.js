@@ -1,4 +1,4 @@
-// actions.js 
+// redux/ actions.js 
 export const ADD_MESSAGE = 'ADD_MESSAGE';
 export const TOGGLE_DARK_MODE = 'TOGGLE_DARK_MODE';
 export const UPDATE_MESSAGES = 'UPDATE_MESSAGES';
