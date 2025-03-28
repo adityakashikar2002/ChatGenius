@@ -88,7 +88,3 @@ function ChatWindow({ activeChatId, updateChatTitle }) {
 }
 
 export default ChatWindow;
-
-
-
-

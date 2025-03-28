@@ -369,13 +369,47 @@ pre code.hljs {
 }
 
 .chat-input input.dark-mode-input {
-  background-color: #444; /* Or any gray color you prefer */
-  color: white; /* Optional: Adjust text color for better visibility */
-  border: 1px solid #666; /* Optional: Adjust border color */
+  background-color: #444; 
+  color: white; 
+  border: 1px solid #666; 
 }
 
 .chat-input input.light-mode-input {
-  background-color: #fefefe; /* Or any gray color you prefer */
-  color: rgb(0, 0, 0); /* Optional: Adjust text color for better visibility */
-  border: 1px solid #c9c7c7; /* Optional: Adjust border color */
+  background-color: #fefefe; 
+  color: rgb(0, 0, 0); 
+  border: 1px solid #c9c7c7; 
+}
+
+/* Image Generation Styling */
+.image-generator {
+  margin-top: 20px;
+  padding: 10px;
+  text-align: center;
+}
+
+.image-prompt-input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.generate-image-button {
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.generate-image-button:hover {
+  background-color: #0056b3;
+}
+
+.generated-image {
+  margin-top: 10px;
+  max-width: 100%;
+  border-radius: 5px;
 }
