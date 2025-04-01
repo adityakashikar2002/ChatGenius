@@ -1,4 +1,4 @@
-const apiKey = process.env.REACT_APP_IMAGEPIG_API_KEYS;
+const apiKey = process.env.REACT_APP_IMAGEPIG_API_KEY;
 
 export const generateImage = async (prompt) => {
     try {

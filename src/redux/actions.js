@@ -1,4 +1,4 @@
-// // redux/ actions.js 
+// // redux/actions.js
 // export const ADD_MESSAGE = 'ADD_MESSAGE';
 // export const TOGGLE_DARK_MODE = 'TOGGLE_DARK_MODE';
 // export const UPDATE_MESSAGES = 'UPDATE_MESSAGES';
@@ -6,7 +6,7 @@
 // export const UPDATE_CHAT = 'UPDATE_CHAT';
 // export const SET_CHATS = 'SET_CHATS';
 // export const REMOVE_CHAT = 'REMOVE_CHAT';
-// export const SET_MESSAGES = 'SET_MESSAGES'; // Add setMessages action
+// export const SET_MESSAGES = 'SET_MESSAGES';
 
 // export const addMessage = (message) => ({
 //     type: ADD_MESSAGE,
@@ -47,7 +47,6 @@
 //     payload: messages,
 // });
 
-// redux/actions.js
 export const ADD_MESSAGE = 'ADD_MESSAGE';
 export const TOGGLE_DARK_MODE = 'TOGGLE_DARK_MODE';
 export const UPDATE_MESSAGES = 'UPDATE_MESSAGES';
@@ -56,6 +55,9 @@ export const UPDATE_CHAT = 'UPDATE_CHAT';
 export const SET_CHATS = 'SET_CHATS';
 export const REMOVE_CHAT = 'REMOVE_CHAT';
 export const SET_MESSAGES = 'SET_MESSAGES';
+export const UPDATE_MESSAGE = 'UPDATE_MESSAGE'; // Add this line
+export const INCREMENT_IMAGE_COUNT = 'INCREMENT_IMAGE_COUNT'; // Add this line
+
 
 export const addMessage = (message) => ({
     type: ADD_MESSAGE,
@@ -94,4 +96,14 @@ export const removeChat = (chatId) => ({
 export const setMessages = (messages) => ({
     type: SET_MESSAGES,
     payload: messages,
+});
+
+export const updateMessage = (message) => ({ // Add this function
+    type: UPDATE_MESSAGE,
+    payload: message,
+});
+
+export const incrementImageCount = (chatId) => ({ // Add this function
+    type: INCREMENT_IMAGE_COUNT,
+    payload: chatId,
 });
